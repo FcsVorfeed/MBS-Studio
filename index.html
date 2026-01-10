@@ -18,9 +18,8 @@
         body, html {
             margin: 0;
             padding: 0;
-            /* 确保 body 透明，不遮挡背景层 */
             background: transparent;
-            background-color: var(--bg-color); /* 作为图片加载前的底色 */
+            background-color: var(--bg-color);
             
             color: var(--text-main);
             font-family: var(--font-stack);
@@ -29,14 +28,13 @@
             min-height: 100vh;
         }
 
-        /* --- 独立的背景层 (修复不可见问题) --- */
+        /* --- 独立的背景层 --- */
         .bg-layer {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* 修改：将层级改为 0，避免跑到底色后面 */
             z-index: 0; 
             
             background-image: 
@@ -46,23 +44,20 @@
             background-position: center center;
             background-repeat: no-repeat;
             
-            /* 保持硬件加速 */
             will-change: transform;
             transform: translateZ(0); 
         }
 
-        /* 容器：限制最大宽度，居中 */
+        /* 容器：从 800px 扩大到 1200px，适应大比例内容 */
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 5rem 1.5rem; 
+            padding: 8rem 2rem; /* 上下留白也相应增加 */
             display: flex;
             flex-direction: column;
             align-items: center;
             opacity: 0;
             animation: fadeIn 1.5s ease-out forwards;
-            
-            /* 确保内容在背景层之上 */
             position: relative; 
             z-index: 1; 
         }
@@ -70,44 +65,49 @@
         /* --- 头部信息区域 --- */
         header {
             text-align: center;
-            margin-bottom: 5rem;
+            /* 间距放大：从 5rem 增加到 8rem */
+            margin-bottom: 8rem;
         }
 
         h1 {
-            font-size: 3rem;
+            /* 名字字号大幅提升：3rem -> 5.5rem */
+            font-size: 5.5rem;
             font-weight: 200;
             letter-spacing: 0.15em;
-            margin: 0 0 0.5rem 0;
+            margin: 0 0 1rem 0;
             text-transform: uppercase;
             color: var(--text-main);
             text-shadow: 0 2px 10px rgba(0,0,0,0.5); 
         }
 
         .studio {
-            font-size: 1rem;
+            /* 工作室字号提升：1rem -> 1.6rem */
+            font-size: 1.6rem;
             color: var(--accent);
             letter-spacing: 0.1em;
             font-weight: 400;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
             display: inline-block;
             border-bottom: 1px solid rgba(255,255,255,0.3);
-            padding-bottom: 5px;
+            padding-bottom: 8px;
         }
 
         .bio {
-            font-size: 1rem;
+            /* 介绍文字号提升：1rem -> 1.4rem，宽度限制放宽 */
+            font-size: 1.4rem;
             color: var(--text-sub);
-            max-width: 600px;
-            margin: 0 auto 2rem auto;
+            max-width: 900px;
+            margin: 0 auto 3rem auto;
             font-weight: 300;
             text-align: center;
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+            line-height: 1.8;
         }
 
-        /* 顶部链接 */
+        /* 顶部链接 (保留显示) */
         .header-links {
             display: flex;
-            gap: 2rem;
+            gap: 3rem; /* 间距加大 */
             justify-content: center;
             margin-bottom: 3rem;
         }
@@ -117,14 +117,14 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 3.5rem; 
+            gap: 6rem; /* 卡片之间的距离加大 */
         }
 
         /* 插件卡片 */
         .project-card {
             display: flex;
             background-color: var(--card-bg);
-            border-radius: 6px; 
+            border-radius: 8px; 
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 1px solid rgba(255,255,255,0.08); 
@@ -134,18 +134,19 @@
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
             border-color: rgba(255,255,255,0.15);
         }
 
         /* 左侧图片容器 */
         .project-image {
-            flex: 0 0 45%; 
+            flex: 0 0 50%; /* 图片宽度占比稍微增加 */
             background-color: rgba(0, 0, 0, 0.5); 
             position: relative;
             overflow: hidden;
-            min-height: 200px; 
+            /* 关键修改：最小高度从 200px 提升到 360px */
+            min-height: 360px; 
             display: flex;
             align-items: center;
             justify-content: center;
@@ -167,7 +168,8 @@
         /* 右侧内容容器 */
         .project-info {
             flex: 1;
-            padding: 1.6rem;
+            /* 内边距加大，给大号文字更多呼吸空间 */
+            padding: 3rem;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -175,25 +177,28 @@
         }
 
         .project-title {
-            font-size: 1.35rem; 
+            /* 标题字号提升：1.35rem -> 2.4rem */
+            font-size: 2.4rem; 
             font-weight: 400;
             color: var(--text-main);
-            margin: 0 0 0.6rem 0;
+            margin: 0 0 1rem 0;
             letter-spacing: 0.05em;
         }
 
         .project-desc {
-            font-size: 0.9rem; 
+            /* 正文字号提升：0.9rem -> 1.2rem */
+            font-size: 1.2rem; 
             color: var(--text-sub);
-            margin-bottom: 1.2rem;
-            line-height: 1.5;
+            margin-bottom: 2rem;
+            line-height: 1.7;
         }
 
         /* 按钮样式 */
         .btn {
             display: inline-block;
-            padding: 0.5rem 1rem;
-            font-size: 0.75rem;
+            /* 按钮尺寸加大 */
+            padding: 0.8rem 1.6rem;
+            font-size: 1rem;
             letter-spacing: 0.1em;
             color: var(--text-main);
             border: 1px solid rgba(255,255,255,0.3);
@@ -201,7 +206,7 @@
             text-transform: uppercase;
             transition: all 0.3s ease;
             align-self: flex-start;
-            border-radius: 2px;
+            border-radius: 4px;
         }
 
         .btn:hover {
@@ -214,10 +219,11 @@
         .text-link {
             text-decoration: none;
             color: var(--text-sub);
-            font-size: 0.85rem;
+            /* 链接字号提升 */
+            font-size: 1.2rem;
             letter-spacing: 0.1em;
             transition: color 0.3s ease;
-            padding-bottom: 2px;
+            padding-bottom: 3px;
             border-bottom: 1px solid transparent;
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
@@ -232,16 +238,18 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- 移动端适配 --- */
-        @media (max-width: 768px) {
-            .container { padding-top: 3rem; }
-            h1 { font-size: 2.2rem; }
+        /* --- 移动端适配 (大字号版) --- */
+        @media (max-width: 1024px) {
+            .container { padding: 5rem 1.5rem; max-width: 100%; }
+            h1 { font-size: 3rem; } /* 手机上稍微收敛一点，防止换行太难看 */
+            .bio { font-size: 1.1rem; }
             .project-card { flex-direction: column; }
             .project-image { 
-                height: 250px; 
+                min-height: 250px; 
                 flex: none; 
             }
-            .project-info { padding: 1.5rem; }
+            .project-info { padding: 2rem; }
+            .project-title { font-size: 1.8rem; }
         }
     </style>
 </head>
@@ -302,7 +310,7 @@
 
         </div>
 
-        <div style="margin-top: 5rem; opacity: 0.4; font-size: 0.8rem; letter-spacing: 0.05em;">
+        <div style="margin-top: 8rem; opacity: 0.4; font-size: 1rem; letter-spacing: 0.05em;">
             &copy; 2025 MBS Studio. All rights reserved.
         </div>
 
