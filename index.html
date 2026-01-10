@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FcsVorfeed | MBS Studio</title>
+    <style>
+        /* --- 核心样式设计 --- */
+        :root {
+            --bg-color: #121212;
+            --card-bg: rgba(25, 25, 25, 0.94); 
+            --text-main: #e0e0e0;
+            --text-sub: #b0b0b0;
+            --accent: #ffffff;
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            /* 确保 body 透明，不遮挡背景层 */
+            background: transparent;
+            background-color: var(--bg-color); /* 作为图片加载前的底色 */
+            
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- 独立的背景层 (修复不可见问题) --- */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* 修改：将层级改为 0，避免跑到底色后面 */
+            z-index: 0; 
+            
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), 
+                url('https://raw.githubusercontent.com/FcsVorfeed/MBS-Studio/refs/heads/main/pexels-cottonbro-3826435_upscayl.jpg');
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+            
+            /* 保持硬件加速 */
+            will-change: transform;
+            transform: translateZ(0); 
+        }
+
+        /* 容器：限制最大宽度，居中 */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 5rem 1.5rem; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out forwards;
+            
+            /* 确保内容在背景层之上 */
+            position: relative; 
+            z-index: 1; 
+        }
+
+        /* --- 头部信息区域 --- */
+        header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 200;
+            letter-spacing: 0.15em;
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+            color: var(--text-main);
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5); 
+        }
+
+        .studio {
+            font-size: 1rem;
+            color: var(--accent);
+            letter-spacing: 0.1em;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            display: inline-block;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 5px;
+        }
+
+        .bio {
+            font-size: 1rem;
+            color: var(--text-sub);
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            font-weight: 300;
+            text-align: center;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        /* 顶部链接 */
+        .header-links {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        /* --- 插件展示区域 --- */
+        .projects-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 3.5rem; 
+        }
+
+        /* 插件卡片 */
+        .project-card {
+            display: flex;
+            background-color: var(--card-bg);
+            border-radius: 6px; 
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255,255,255,0.08); 
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            will-change: transform;
+            transform: translateZ(0);
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+            border-color: rgba(255,255,255,0.15);
+        }
+
+        /* 左侧图片容器 */
+        .project-image {
+            flex: 0 0 45%; 
+            background-color: rgba(0, 0, 0, 0.5); 
+            position: relative;
+            overflow: hidden;
+            min-height: 200px; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            opacity: 0.95;
+            transition: opacity 0.3s ease, transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image img {
+            opacity: 1;
+            transform: scale(1.02); 
+        }
+
+        /* 右侧内容容器 */
+        .project-info {
+            flex: 1;
+            padding: 1.6rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
+
+        .project-title {
+            font-size: 1.35rem; 
+            font-weight: 400;
+            color: var(--text-main);
+            margin: 0 0 0.6rem 0;
+            letter-spacing: 0.05em;
+        }
+
+        .project-desc {
+            font-size: 0.9rem; 
+            color: var(--text-sub);
+            margin-bottom: 1.2rem;
+            line-height: 1.5;
+        }
+
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.3);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            border-radius: 2px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+
+        /* 头部通用链接样式 */
+        .text-link {
+            text-decoration: none;
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            transition: color 0.3s ease;
+            padding-bottom: 2px;
+            border-bottom: 1px solid transparent;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+        .text-link:hover {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* 页面加载动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- 移动端适配 --- */
+        @media (max-width: 768px) {
+            .container { padding-top: 3rem; }
+            h1 { font-size: 2.2rem; }
+            .project-card { flex-direction: column; }
+            .project-image { 
+                height: 250px; 
+                flex: none; 
+            }
+            .project-info { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 独立的背景层 div，z-index 为 0 -->
+    <div class="bg-layer"></div>
+
+    <!-- 内容容器，z-index 为 1 -->
+    <div class="container">
+        
+        <!-- 头部信息 -->
+        <header>
+            <h1>FcsVorfeed</h1>
+            <div class="studio">MBS Studio</div>
+            
+            <p class="bio">
+                Hi, I'm a seasoned game developer with nearly 20 years of experience. I will share with you the tools that I have personally used for a long and stable period during the actual game development process.
+            </p>
+
+            <div class="header-links">
+                <a href="mailto:sakurawarskula@foxmail.com" class="text-link">EMAIL ME</a>
+            </div>
+        </header>
+
+        <!-- 插件展示列表 -->
+        <div class="projects-section">
+
+            <!-- 插件 1: LevelPlacer -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="https://raw.githubusercontent.com/FcsVorfeed/MBS-Studio/refs/heads/main/1.png" alt="Level Placer Preview" onerror="this.src='https://placehold.co/800x450/222/999?text=Image+Missing'">
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">Quick Drag & Drop | Level Placer</h3>
+                    <p class="project-desc">
+                        Are you tired of wasting 50% of your time clicking through deep folder hierarchies just to find one rock or tree? Quick Drag & Drop is designed for one purpose: To make Level Design 10x Faster. <br><br>
+                        We have stripped away the clutter to give you the most simple, convenient, and powerful drag-and-drop workflow on the Asset Store.
+                    </p>
+                    <a href="https://assetstore.unity.com/packages/slug/351352" target="_blank" class="btn">View on Asset Store</a>
+                </div>
+            </div>
+
+            <!-- 插件 2: RootSelectLocker -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="https://raw.githubusercontent.com/FcsVorfeed/MBS-Studio/refs/heads/main/2.png" alt="RootSelectLocker Preview" onerror="this.src='https://placehold.co/800x450/222/999?text=Image+Missing'">
+                </div>
+                <div class="project-info">
+                    <h3 class="project-title">Root Select Locker</h3>
+                    <p class="project-desc">
+                        Are you tired of accidentally selecting a door handle when you meant to move the whole house? Or dragging a child mesh instead of the character root? <br><br>
+                        Root Select Locker is a lightweight, editor-only workflow tool designed to solve the most frustrating part of level design: Accidental Child Selection.
+                    </p>
+                    <a href="https://assetstore.unity.com/packages/slug/351036" target="_blank" class="btn">View on Asset Store</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 5rem; opacity: 0.4; font-size: 0.8rem; letter-spacing: 0.05em;">
+            &copy; 2025 MBS Studio. All rights reserved.
+        </div>
+
+    </div>
+
+</body>
+</html>
