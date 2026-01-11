@@ -26,6 +26,8 @@
             line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column; /* 确保 footer 沉底 */
         }
 
         /* --- 独立的背景层 --- */
@@ -48,14 +50,20 @@
             transform: translateZ(0); 
         }
 
-        /* 容器：从 800px 扩大到 1200px，适应大比例内容 */
+        /* 主容器 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 8rem 2rem; /* 上下留白也相应增加 */
+            /* 修改：底部 padding 减少，因为后面有 footer band 承接 */
+            padding: 8rem 2rem 6rem 2rem; 
+            width: 100%;
+            box-sizing: border-box;
+            
             display: flex;
             flex-direction: column;
             align-items: center;
+            flex: 1; /* 撑开高度 */
+            
             opacity: 0;
             animation: fadeIn 1.5s ease-out forwards;
             position: relative; 
@@ -65,12 +73,10 @@
         /* --- 头部信息区域 --- */
         header {
             text-align: center;
-            /* 间距放大：从 5rem 增加到 8rem */
             margin-bottom: 8rem;
         }
 
         h1 {
-            /* 名字字号大幅提升：3rem -> 5.5rem */
             font-size: 5.5rem;
             font-weight: 200;
             letter-spacing: 0.15em;
@@ -81,7 +87,6 @@
         }
 
         .studio {
-            /* 工作室字号提升：1rem -> 1.6rem */
             font-size: 1.6rem;
             color: var(--accent);
             letter-spacing: 0.1em;
@@ -93,7 +98,6 @@
         }
 
         .bio {
-            /* 介绍文字号提升：1rem -> 1.4rem，宽度限制放宽 */
             font-size: 1.4rem;
             color: var(--text-sub);
             max-width: 900px;
@@ -104,10 +108,10 @@
             line-height: 1.8;
         }
 
-        /* 顶部链接 (保留显示) */
+        /* 顶部链接 */
         .header-links {
             display: flex;
-            gap: 3rem; /* 间距加大 */
+            gap: 3rem; 
             justify-content: center;
             margin-bottom: 3rem;
         }
@@ -117,7 +121,7 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            gap: 6rem; /* 卡片之间的距离加大 */
+            gap: 6rem; 
         }
 
         /* 插件卡片 */
@@ -141,11 +145,10 @@
 
         /* 左侧图片容器 */
         .project-image {
-            flex: 0 0 50%; /* 图片宽度占比稍微增加 */
+            flex: 0 0 50%; 
             background-color: rgba(0, 0, 0, 0.5); 
             position: relative;
             overflow: hidden;
-            /* 关键修改：最小高度从 200px 提升到 360px */
             min-height: 360px; 
             display: flex;
             align-items: center;
@@ -168,7 +171,6 @@
         /* 右侧内容容器 */
         .project-info {
             flex: 1;
-            /* 内边距加大，给大号文字更多呼吸空间 */
             padding: 3rem;
             display: flex;
             flex-direction: column;
@@ -177,7 +179,6 @@
         }
 
         .project-title {
-            /* 标题字号提升：1.35rem -> 2.4rem */
             font-size: 2.4rem; 
             font-weight: 400;
             color: var(--text-main);
@@ -186,7 +187,6 @@
         }
 
         .project-desc {
-            /* 正文字号提升：0.9rem -> 1.2rem */
             font-size: 1.2rem; 
             color: var(--text-sub);
             margin-bottom: 2rem;
@@ -196,7 +196,6 @@
         /* 按钮样式 */
         .btn {
             display: inline-block;
-            /* 按钮尺寸加大 */
             padding: 0.8rem 1.6rem;
             font-size: 1rem;
             letter-spacing: 0.1em;
@@ -215,21 +214,70 @@
             border-color: var(--accent);
         }
 
-        /* 头部通用链接样式 */
-        .text-link {
+        /* 通用链接/文本样式 */
+        .text-link, .text-info {
             text-decoration: none;
             color: var(--text-sub);
-            /* 链接字号提升 */
             font-size: 1.2rem;
             letter-spacing: 0.1em;
             transition: color 0.3s ease;
             padding-bottom: 3px;
-            border-bottom: 1px solid transparent;
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
+        
+        .text-link {
+            border-bottom: 1px solid transparent;
+        }
+        
         .text-link:hover {
             color: var(--accent);
             border-bottom-color: var(--accent);
+        }
+        
+        .text-info {
+            cursor: default; 
+        }
+        .text-info:hover {
+            color: var(--accent); 
+        }
+
+        /* --- 底部黑带区域 (Footer Band) --- */
+        .footer-band {
+            width: 100%;
+            /* 优雅的深黑背景，稍微有点透 */
+            background-color: rgba(10, 10, 10, 0.95); 
+            /* 顶部添加一条极细的亮线，增加精致感 */
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            
+            padding: 5rem 0 4rem 0; /* 内部留白 */
+            margin-top: auto; /* 确保它在页面最底部 */
+            
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px); /* 磨砂质感 */
+            opacity: 0;
+            animation: fadeIn 1.5s ease-out 0.3s forwards; /* 稍微延迟一点出现 */
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 4rem; /* 间距拉大 */
+            flex-wrap: wrap; 
+            justify-content: center;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            padding: 0 2rem;
+        }
+
+        .copyright {
+            opacity: 0.3; 
+            font-size: 1rem; 
+            letter-spacing: 0.05em;
         }
 
         /* 页面加载动画 */
@@ -238,10 +286,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- 移动端适配 (大字号版) --- */
+        /* --- 移动端适配 --- */
         @media (max-width: 1024px) {
             .container { padding: 5rem 1.5rem; max-width: 100%; }
-            h1 { font-size: 3rem; } /* 手机上稍微收敛一点，防止换行太难看 */
+            h1 { font-size: 3rem; } 
             .bio { font-size: 1.1rem; }
             .project-card { flex-direction: column; }
             .project-image { 
@@ -250,6 +298,12 @@
             }
             .project-info { padding: 2rem; }
             .project-title { font-size: 1.8rem; }
+            
+            .footer-socials {
+                flex-direction: column;
+                gap: 1.5rem;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -258,7 +312,7 @@
     <!-- 独立的背景层 div，z-index 为 0 -->
     <div class="bg-layer"></div>
 
-    <!-- 内容容器，z-index 为 1 -->
+    <!-- 主内容容器，z-index 为 1 -->
     <div class="container">
         
         <!-- 头部信息 -->
@@ -271,7 +325,7 @@
             </p>
 
             <div class="header-links">
-                <a href="mailto:sakurawarskula@foxmail.com" class="text-link">EMAIL ME</a>
+                <a href="mailto:FcsVorfeed@gmail.com" class="text-link">EMAIL ME</a>
             </div>
         </header>
 
@@ -310,11 +364,22 @@
 
         </div>
 
-        <div style="margin-top: 8rem; opacity: 0.4; font-size: 1rem; letter-spacing: 0.05em;">
-            &copy; 2025 MBS Studio. All rights reserved.
+    </div> 
+    <!-- container 结束 -->
+
+    <!-- 全宽底部黑带区域 -->
+    <footer class="footer-band">
+        <div class="footer-socials">
+            <a href="https://www.youtube.com/@FcsVorfeed" target="_blank" class="text-link">YOUTUBE</a>
+            <a href="https://space.bilibili.com/74866" target="_blank" class="text-link">BILIBILI</a>
+            <span class="text-info">QQ: 359851023</span>
+            <span class="text-info">WECHAT: sakurawarskula</span>
         </div>
 
-    </div>
+        <div class="copyright">
+            &copy; 2025 MBS Studio. All rights reserved.
+        </div>
+    </footer>
 
 </body>
 </html>
