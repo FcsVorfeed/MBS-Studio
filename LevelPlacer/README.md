@@ -49,7 +49,7 @@ You have two ways to add folders
 1. All you need to do is **hold down the left mouse button** on the thumbnail of the target asset and drag it directly into the Scene to place it.
 2. By holding down **Ctrl + scrolling** the mouse wheel on the LevelPlacer window, you can quickly resize the icons.
 
-![image-20260119152640214](C:\Users\sakur\AppData\Roaming\Typora\typora-user-images\image-20260119152640214.png)
+![image-20260119151155488](C:\Users\sakur\Desktop\LevelPlacer\image-20260119151155488.png)
 
 # Optimized shortcut operation
 
@@ -69,7 +69,7 @@ You can find the detailed settings page by going to
 
 **Edit -> ProjectSettings -> MBS -> LevelPlacer.**
 
-![image-20260119152713557](C:\Users\sakur\AppData\Roaming\Typora\typora-user-images\image-20260119152713557.png)
+![image-20260119151245891](C:\Users\sakur\Desktop\LevelPlacer\image-20260119151245891.png)
 
  
 
