@@ -321,6 +321,18 @@
             padding: 0 2rem;
         }
 
+        /* --- 访客统计徽章样式 --- */
+        .visitor-count-container {
+            margin-bottom: 1.5rem; /* 和下方版权信息的间距 */
+            opacity: 0.6;          /* 平时半透明，不抢视觉重心 */
+            transition: opacity 0.3s ease;
+        }
+
+        /* 鼠标悬停时变亮 */
+        .visitor-count-container:hover {
+            opacity: 1;
+        }
+
         .copyright {
             opacity: 0.3; 
             font-size: 1rem; 
@@ -511,6 +523,17 @@
                 <svg class="icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M8.706 1.8c-4.234 0-7.733 3.125-7.733 7.042 0 2.258 1.144 4.27 2.949 5.617-.123.834-.656 2.531-.77 3.016 0 0-.172.633.406.312.516-.297 3.086-1.789 3.586-2.101.484.14 1 .21 1.531.21 4.258 0 7.734-3.125 7.734-7.043C16.41 4.926 12.964 1.8 8.707 1.8zm11.234 6.746c-.508 0-1.008.043-1.492.117.156.621.242 1.27.242 1.938 0 4.363-3.875 7.964-8.586 7.964-.477 0-.946-.039-1.406-.109.914 1.848 3.024 3.16 5.485 3.16.445 0 .883-.047 1.304-.133.422.262 2.57 1.508 3.008 1.758.484.266.344-.266.344-.266-.094-.406-.539-1.828-.641-2.523 1.516-1.125 2.477-2.812 2.477-4.703 0-3.285-2.937-6.023-6.422-6.023l5.687-1.18z"/></svg>
                 WECHAT: sakurawarskula
             </span>
+        </div>
+
+        <!-- 
+            [访客统计徽章] 
+            参数说明:
+            page_id: FcsVorfeed.MBS-Studio (这是唯一ID，如果以后改名了记得这里也要改)
+            left_bg_color: %23121212 (左侧背景色，设为和网页背景一致的深黑)
+            right_color: %23333333 (右侧数字背景色，深灰)
+        -->
+        <div class="visitor-count-container">
+            <img src="https://visitor-badge.laobi.icu/badge?page_id=FcsVorfeed.MBS-Studio&left_text=Visitors&right_color=%23333333&left_bg_color=%23121212&right_text_color=%23b0b0b0" alt="visitor count"/>
         </div>
 
         <div class="copyright">
