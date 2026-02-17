@@ -12,50 +12,55 @@ Resource Store Connection - https://assetstore.unity.com/packages/slug/355556
 
 # **Open VFX Browser Window**
 
-1. Currently, two types of windows are available. One is the Internal class window that can be fixed on the editor interface. This type of window cannot be moved quickly or closed using the shortcut key (ESC), and is suitable for users who prefer to keep the window permanently on the editor interface.
+​	**Tools -> VFX Browser**
 
-​	**Tools -> LEVELP LACER -> Open Internal Window**
-
-​	![img](./images/wps1.jpg) 
+​	<img src="images/image-20260217160217363.png" alt="image-20260217160217363" style="zoom:67%;" />
 
 
 
 # **Add Folder**
 
-You have two ways to add folders
+1. Simply drag the folder onto the VFX Browser window, and it will be automatically added to the **Simple Folder Pages list**. By default, it will attempt to display the **Particle System** and **VFX Graphs** within that folder.
 
-1. Simply drag the folder onto the LevelPlacer window, and it will be automatically added to the **Simple Folder Pages list**. By default, it will attempt to display the **Prefabs**, **Textures**, and **Materials** within that folder.
+![image-20260217160654335](images/image-20260217160654335.png)
 
-​	![img](./images/wps3.jpg) 
+2. Or, click the "Folder" button in the right corner of the VFX Browser window. At this point, the folder configuration interface will be opened, allowing you to configure the folders that need to be displayed.
 
-2. Or, click the "Folder" button in the upper right corner of the LevelPlacer window. At this point, the folder configuration interface will be opened, allowing you to configure the folders that need to be displayed.
-
-​	![img](./images/wps4.jpg) 
+![image-20260217161042067](images/image-20260217161042067.png) 
 
 
 
 # **Place Assets**
 
-1. All you need to do is **hold down the left mouse button** on the thumbnail of the target asset and drag it directly into the Scene to place it.
-2. By holding down **Ctrl + scrolling** the mouse wheel on the LevelPlacer window, you can quickly resize the icons.
+All you need to do is **hold down the left button** on the thumbnail and drag it directly into the Scene to place it.
 
-​	![img](./images/wps6.jpg) 
+![image-20260217161458333](images/image-20260217161458333.png) 
 
 # **Optimized shortcut operation**
 
-After selecting the objects in the Scene, hold down the **Ctrl** key on the keyboard to activate the shortcut key operations.
+- **Left-Click:** Replay particle
+- **Left-Hold:** Stop movement
+- **Right-Click:** Select asset
+- **Right-Drag:** Rotate camera
+- **Middle-Drag:** Pan effect
+- **HoldCtrl + Scroll Wheel:** Zoom in / out
+- **HoldRight + Scroll Wheel:** Zoom in / out
 
-**1.** **Ctrl + mouse right button**: Quickly move the selected object to the current mouse position
 
-**2.** **Ctrl + mouse middle button**: Quickly focus on the position of the selected object
 
-**3.** **Ctrl + mouse scroll wheel**: Quickly rotate the selected object (Y-axis in world space)
+# Quick Setting
 
-**4.** **Shift + mouse scroll wheel**: Quickly scale the selected object
+You can quickly configure common preview settings directly in the top Title Bar.
 
-**5.** **ESC**: Cancel current selection
+Also you can click the label to the left of any slider to instantly **reset** it to its default value.
 
-All of the above operations support **multiple selections**.
+![image-20260217162839535](images/image-20260217162839535.png)
+
+- **Speed**: Adjust the playback rate for all particle effects simultaneously.
+- **Grid**: Control the number of previews displayed on screen at once.
+- **Color**: Adjust the preview background brightness or shade.
+- **Scale**: Scale the preview size for all effects.
+- **Group**: Toggle whether to categorize and display effects based on subdirectories.
 
 
 
@@ -63,29 +68,24 @@ All of the above operations support **multiple selections**.
 
 You can find the detailed settings page by going to 
 
-**Edit -> ProjectSettings -> MBS -> LevelPlacer.**
+**Edit -> ProjectSettings -> MBS -> ParticlePreview.**
 
-![img](./images/wps7.jpg) 
+![image-20260217162615703](images/image-20260217162615703.png) 
 
 
 
 # **Important Notes:**
 
-**1. Regarding File Updates:** When LevelPlacer displays assets, it reloads the corresponding Prefab data to ensure accuracy (similar to Unity's "refresh on project open"). This may occasionally cause files on disk to be marked as updated. This is **normal behavior**—usually happening when a script has added new serialized fields that the Prefab hasn't cached yet. The reload simply forces Unity to patch this data.
+- **Performance:** While the plugin is heavily optimized internally, particle effects are inherently resource-intensive assets. Since this tool provides **real-time previews** for multiple dynamic effects simultaneously, actual performance depends primarily on VFX complexity and hardware specifications. If performance issues occur, reduce the **Grid Count** to limit the number of simultaneous previews on screen.
 
- 
 
-**2. Performance:** LevelPlacer uses an asynchronous pipeline to keep things smooth. However, please note that browsing folders containing **thousands of assets** may still introduce a slight momentary hitch when refreshing or switching pages.
 
- 
+- **Runtime Preview:** 
+  The VFX Browser supports full functionality—including previewing and dragging assets into the scene—during **Play Mode**.
 
-**3. Memory Usage:** LevelPlacer caches asset thumbnails to allow instant page switching without reloading. While efficient, this consumes RAM. Generally, 32GB of RAM is sufficient for most use cases. However, for massive projects (e.g., >300GB), previewing thousands of assets simultaneously can increase memory load.
+  However, testing has shown that certain Asset Store VFX may trigger Error Logs during runtime preview due to non-standard scripting practices within those specific assets. If errors occur, first investigate whether the issue is isolated to particular assets.
 
-**Note:** In our tests with a 300GB+ project, previewing thousands of assets simultaneously consumed approximately 3GB of memory. If you encounter abnormal, prolonged freezing while browsing large collections, it is likely due to insufficient memory.
-
- 
-
-**4. Setup:** In most cases, **no manual configuration is required**. Default settings are tuned for efficiency based on nearly a decade of production use. If you need to adjust anything to fit your specific workflow, you can do so in the Settings window.
+  The VFX Browser's primary interaction with an effect is attempting to access its **Animator** for playback, which should not cause issues in standard setups. If the plugin conflicts with your project's specific script implementations, please report the issue via **email**.
 
  
 
