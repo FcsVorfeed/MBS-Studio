@@ -2,22 +2,77 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>LevelPlacer</title> <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>LevelPlacer</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Level Placer Unity Plugin Documentation">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="vue.css">
+  
+  <!-- 1. 核心改动：更换为 GitHub 风格主题 (仿 Typora) -->
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/github.css">
+  
+  <style>
+    /* 额外的微调，让它更像 Typora */
+    .markdown-section {
+      max-width: 900px; /* 限制正文最大宽度，避免太宽很难看 */
+      margin: 0 auto;
+      padding: 30px 15px 40px 15px;
+    }
+    
+    /* 修复代码块字体，强制使用等宽字体，解决缩进看不清的问题 */
+    code, pre {
+      font-family: "Consolas", "Roboto Mono", "Monaco", monospace !important;
+    }
+    
+    /* 让分割线更明显一点 */
+    hr {
+      height: 2px !important;
+      background-color: #e1e4e8 !important;
+      margin: 24px 0 !important;
+    }
+  </style>
 </head>
 <body>
   <div id="app">Loading...</div>
   <script>
     window.$docsify = {
-      name: 'LevelPlacer', // 左上角显示的名字
-      repo: '', // 如果你想显示右上角的 GitHub 图标，可以在这里填仓库地址
-      loadSidebar: false, // 只有一页文档的话，不需要侧边栏，简单粗暴
-      subMaxLevel: 3, // 会自动根据你的标题生成右侧目录
-      auto2top: true
+      name: 'LevelPlacer', 
+      repo: '', 
+      loadSidebar: false, 
+      subMaxLevel: 3, 
+      auto2top: true,
+      
+      // 2. 核心改动：开启类似 Typora 的换行行为
+      markdown: {
+        breaks: true, // 开启“软换行”，按一下回车就是换行，不用按两下
+        gfm: true     // 开启 GitHub 风格 Markdown
+      },
+
+      copyCode: {
+        buttonText : 'Copy',
+        errorText  : 'Error',
+        successText: 'Copied'
+      },
+
+      // 3. 核心改动：自定义插件，强制保留多重空行
+      plugins: [
+        function(hook) {
+          hook.beforeEach(function(content) {
+            // 正则说明：匹配连续3个或以上的换行符，替换为 HTML 的换行标签
+            // 这能让你在 md 里敲很多回车时，网页上也显示很多空行
+            return content.replace(/\n{3,}/g, '\n<br><br>\n');
+          });
+        }
+      ]
     }
   </script>
-  <script src="docsify.min.js"></script>
+  
+  <!-- 核心 Docsify 脚本 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4/lib/docsify.min.js"></script>
+  
+  <!-- 插件 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-csharp.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-json.min.js"></script>
 </body>
 </html>
