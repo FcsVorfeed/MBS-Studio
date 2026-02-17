@@ -40,7 +40,7 @@ You have two ways to add folders
 
 ​	![img](./images/wps4.jpg) 
 
-3. You can also fully customize the content displayed in the folders in the **Advanced Folder Pages list**. ***(*Supports  displaying the contents of multiple folders on a single page)**
+3. You can also fully customize the content displayed in the folders in the **Advanced Folder Pages list. (Supports  displaying the contents of multiple folders on a single page)**
 
 ​	![img](./images/wps5.jpg) 
 
@@ -57,7 +57,7 @@ You have two ways to add folders
 
 After selecting the objects in the Scene, hold down the **Ctrl** key on the keyboard to activate the shortcut key operations.
 
-**1.** **Ctrl + *mouse* right button**: Quickly move the selected object to the current mouse position
+**1.** **Ctrl + mouse right button**: Quickly move the selected object to the current mouse position
 
 **2.** **Ctrl + mouse middle button**: Quickly focus on the position of the selected object
 
