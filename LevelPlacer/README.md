@@ -14,19 +14,19 @@ Resource Store Connection - https://assetstore.unity.com/packages/slug/351352
 
 1. Currently, two types of windows are available. One is the Internal class window that can be fixed on the editor interface. This type of window cannot be moved quickly or closed using the shortcut key (ESC), and is suitable for users who prefer to keep the window permanently on the editor interface.
 
-​	Operation method: 
+​        Operation method: 
 
-​	**Tools -> LEVELP LACER -> Open Internal Window**
+​        Tools -> LEVELP LACER -> Open Internal Window**
 
-​	![img](./images/wps1.jpg) 
+​        ![img](./images/wps1.jpg) 
 
 2. The second type is a more convenient floating window. The main difference from Internal is that the Floating window can be quickly moved by holding down the middle mouse button, and it can be closed quickly using the **ESC** key on the keyboard. This greatly facilitates the placement operation of objects when editing the level scene in the full-screen Scene window display mode. (It is highly recommended to use LevelPlacer in this way. After getting used to it, you will be able to feel a significant improvement in the efficiency of level design.)
 
-​	Operation method: 
+​        Operation method: 
 
-​	**Keyboard shortcut : Ctrl + ~**
+​        Keyboard shortcut : Ctrl + ~**
 
-​	![img](./images/wps2.jpg) 
+​        ![img](./images/wps2.jpg) 
 
 
 
@@ -36,15 +36,15 @@ You have two ways to add folders
 
 1. Simply drag the folder onto the LevelPlacer window, and it will be automatically added to the **Simple Folder Pages list**. By default, it will attempt to display the **Prefabs**, **Textures**, and **Materials** within that folder.
 
-​	![img](./images/wps3.jpg) 
+​        ![img](./images/wps3.jpg) 
 
 2. Or, click the "Folder" button in the upper right corner of the LevelPlacer window. At this point, the folder configuration interface will be opened, allowing you to configure the folders that need to be displayed.
 
-​	![img](./images/wps4.jpg) 
+​        ![img](./images/wps4.jpg) 
 
 3. You can also fully customize the content displayed in the folders in the **Advanced Folder Pages list. (Supports displaying the contents of multiple folders on a single page)**
 
-​	![img](./images/wps5.jpg) 
+​        ![img](./images/wps5.jpg) 
 
 
 
@@ -53,7 +53,7 @@ You have two ways to add folders
 1. All you need to do is **hold down the left mouse button** on the thumbnail of the target asset and drag it directly into the Scene to place it.
 2. By holding down **Ctrl + scrolling** the mouse wheel on the LevelPlacer window, you can quickly resize the icons.
 
-​	![img](./images/wps6.jpg) 
+​        ![img](./images/wps6.jpg) 
 
 # **Optimized shortcut operation**
 
@@ -101,6 +101,6 @@ You can find the detailed settings page by going to
 
 **4. Setup:** In most cases, *no manual configuration is required*. Default settings are tuned for efficiency based on nearly a decade of production use. If you need to adjust anything to fit your specific workflow, you can do so in the Settings window.
 
- 
+
 
 Feedback is always welcome—feel free to drop us an email anytime. Enjoy using LevelPlacer!
