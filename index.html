@@ -28,6 +28,10 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column; /* 确保 footer 沉底 */
+            
+            /* 新增方案1：强制抗锯齿，杜绝字体在动画期间改变渲染宽度导致的抖动 */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         /* --- 独立的背景层 --- */
@@ -341,8 +345,9 @@
 
         /* 页面加载动画 */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            /* 新增方案2：使用 translate3d 开启 GPU 硬件加速，解决次像素吸附抖动 */
+            from { opacity: 0; transform: translate3d(0, 20px, 0); }
+            to { opacity: 1; transform: translate3d(0, 0, 0); }
         }
 
         /* --- 移动端适配 --- */
