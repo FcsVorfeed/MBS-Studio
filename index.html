@@ -16,11 +16,10 @@
         }
 
         html {
-            /* 改进方案：强制一直显示垂直滚动条。
-               这是解决“因滚动条出现导致布局跳动”最稳健的方法，
-               确保页面宽度在任何时候都完全一致。
-            */
+            /* 改进方案：强制一直显示垂直滚动条。确保页面宽度在任何时候都完全一致。 */
             overflow-y: scroll;
+            /* 核心真理级修复：禁止浏览器在动画结束时自动“修正”滚动条，彻底解决向下跳动的问题 */
+            overflow-anchor: none;
         }
 
         body {
@@ -74,16 +73,19 @@
             align-items: center;
             flex: 1; 
             
-            opacity: 0;
-            /* 优化动画：
-               1. 进一步减少位移 (15px -> 10px)，降低由于动画引起的临时高度增加。
-               2. 使用 will-change 提前告知浏览器准备处理位移和透明度。
-            */
-            animation: fadeIn 1.2s cubic-bezier(0.2, 0.6, 0.35, 1) forwards;
-            will-change: transform, opacity;
-            backface-visibility: hidden;
             position: relative; 
             z-index: 1; 
+        }
+
+        /* 核心修复：将动画从整体大容器移至子模块。
+           避免整个大页面作为一个巨型 GPU 图层在动画结束时因图层重组导致卡顿 */
+        header,
+        .section-header,
+        .projects-section {
+            opacity: 0;
+            animation: fadeInUp 1.2s cubic-bezier(0.2, 0.6, 0.35, 1) forwards;
+            backface-visibility: hidden;
+            will-change: transform, opacity;
         }
 
         /* --- 头部信息区域 --- */
@@ -310,7 +312,8 @@
             z-index: 10;
             backdrop-filter: blur(10px); 
             opacity: 0;
-            animation: fadeIn 1.2s ease-out 0.2s forwards; 
+            /* 同样恢复向上的位移动画，并保持原有延迟 */
+            animation: fadeInUp 1.2s cubic-bezier(0.2, 0.6, 0.35, 1) 0.2s forwards; 
             backface-visibility: hidden;
         }
 
@@ -340,11 +343,11 @@
             letter-spacing: 0.05em;
         }
 
-        /* 页面加载动画优化 */
-        @keyframes fadeIn {
+        /* 恢复并优化的位移动画 */
+        @keyframes fadeInUp {
             from { 
                 opacity: 0; 
-                transform: translate3d(0, 10px, 0); 
+                transform: translate3d(0, 15px, 0); 
             }
             to { 
                 opacity: 1; 
