@@ -94,6 +94,30 @@
             margin-bottom: 6rem; 
         }
 
+        /* --- 头像样式 --- */
+        .avatar-container {
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .avatar {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.6);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
         h1 {
             font-size: 5.5rem;
             font-weight: 200;
@@ -358,6 +382,7 @@
         /* --- 移动端适配 --- */
         @media (max-width: 1024px) {
             .container { padding: 5rem 1.5rem; max-width: 100%; }
+            .avatar { width: 100px; height: 100px; margin-bottom: 1.5rem; }
             h1 { font-size: 3rem; } 
             .bio { font-size: 1.1rem; }
             .project-card { flex-direction: column; }
@@ -382,6 +407,9 @@
 
     <div class="container">
         <header>
+            <div class="avatar-container">
+                <img src="https://raw.githubusercontent.com/FcsVorfeed/MBS-Studio/refs/heads/main/head.png" alt="Avatar" class="avatar">
+            </div>
             <h1>FcsVorfeed</h1>
             <div class="studio">MAGICAL BATTLE SYOU JYO ( MBS-Studio )</div>
             <p class="bio">
