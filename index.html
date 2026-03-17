@@ -173,11 +173,22 @@
             font-weight: 300;
             letter-spacing: 0.3em;
             color: var(--accent);
-            background: rgba(0,0,0,0.3); 
+            background: rgba(20, 20, 20, 0.4); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
             padding: 0.5rem 1.5rem;
-            border-radius: 4px;
+            border-radius: 6px;
             text-transform: uppercase;
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-top: 1px solid rgba(255, 255, 255, 0.25); 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            /* 新增：标题顶部的高光呼吸律动 */
+            animation: titleGlow 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes titleGlow {
+            0% { border-top-color: rgba(255, 255, 255, 0.15); box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+            100% { border-top-color: rgba(255, 255, 255, 0.45); box-shadow: 0 4px 20px rgba(255,255,255,0.08), 0 4px 15px rgba(0,0,0,0.2); }
         }
 
         /* --- 插件展示区域 --- */
@@ -191,20 +202,51 @@
         /* 插件卡片 */
         .project-card {
             display: flex;
-            background-color: var(--card-bg);
-            border-radius: 8px; 
+            background-color: rgba(25, 25, 25, 0.45); 
+            backdrop-filter: blur(16px); 
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 12px; 
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.08); 
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, background-color 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.08); 
+            border-top: 1px solid rgba(255, 255, 255, 0.18); 
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             will-change: transform;
             transform: translateZ(0);
+            /* 新增：为绝对定位的流光提供参考系 */
+            position: relative; 
+        }
+
+        /* 新增：卡片表面的动态流光层 */
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, 
+                rgba(255, 255, 255, 0) 0%, 
+                rgba(255, 255, 255, 0.06) 50%, /* 极度克制的光感，保持高级且不刺眼 */
+                rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-30deg);
+            animation: cardShimmer 7s infinite cubic-bezier(0.2, 0.6, 0.35, 1);
+            pointer-events: none; /* 绝对安全：阻止鼠标事件，不影响原有的任何点击和悬浮 */
+            z-index: 10; 
+        }
+
+        @keyframes cardShimmer {
+            0% { left: -150%; }
+            15% { left: 250%; } /* 光斑迅速扫过 */
+            100% { left: 250%; } /* 较长的留白时间，避免太频繁显得廉价 */
         }
 
         .project-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            border-color: rgba(255,255,255,0.15);
+            background-color: rgba(35, 35, 35, 0.55); /* 悬浮时玻璃稍微变亮 */
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 20px rgba(255,255,255,0.05);
+            border-color: rgba(255, 255, 255, 0.2);
+            border-top-color: rgba(255, 255, 255, 0.3);
         }
 
         .project-image {
@@ -271,18 +313,46 @@
             font-size: 1rem;
             letter-spacing: 0.1em;
             color: var(--text-main);
-            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.2);
             text-decoration: none;
             text-transform: uppercase;
             transition: all 0.3s ease;
             align-self: flex-start;
-            border-radius: 4px;
+            border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            /* 新增：为按钮流光提供参考系并限制范围 */
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 新增：按钮的动态流光 */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-30deg);
+            animation: btnShimmer 5s infinite cubic-bezier(0.2, 0.6, 0.35, 1);
+            pointer-events: none; /* 同样保证点击穿透 */
+        }
+
+        @keyframes btnShimmer {
+            0% { left: -100%; }
+            15% { left: 200%; }
+            100% { left: 200%; }
         }
 
         .btn:hover {
             background-color: var(--accent);
             color: #000;
             border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); /* 增加发光感 */
         }
 
         .text-link, .text-info {
