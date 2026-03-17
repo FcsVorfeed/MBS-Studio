@@ -661,8 +661,18 @@
         const mouse = { x: null, y: null };
 
         function resize() {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = window.innerHeight;
+            // 获取设备像素比，解决高分屏/手机屏幕模糊问题
+            const dpr = window.devicePixelRatio || 1;
+            
+            width = window.innerWidth;
+            height = window.innerHeight;
+            
+            // 将画布的内部渲染分辨率同比例放大
+            canvas.width = width * dpr;
+            canvas.height = height * dpr;
+            
+            // 缩放画布上下文，保证后续计算的逻辑坐标点不偏移
+            ctx.scale(dpr, dpr);
         }
         window.addEventListener('resize', resize);
         resize();
