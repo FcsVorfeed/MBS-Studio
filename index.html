@@ -47,7 +47,7 @@
             left: 0;
             right: 0; /* 使用左右定位代替 width: 100% */
             bottom: 0;
-            z-index: 0; 
+            z-index: -1; /* 【修改】：将原有的 0 改为 -1，给粒子层腾出空间 */
             
             background-image: 
                 linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), 
@@ -58,6 +58,17 @@
             
             will-change: transform;
             transform: translateZ(0); 
+        }
+
+        /* 新增：粒子特效画布层 */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; /* 放在背景之上，内容之下 */
+            pointer-events: none; /* 绝对安全：鼠标事件穿透，不影响任何按钮点击 */
         }
 
         /* 主容器 */
@@ -474,6 +485,9 @@
 <body>
 
     <div class="bg-layer"></div>
+    
+    <!-- 新增：粒子特效画布 -->
+    <canvas id="particle-canvas"></canvas>
 
     <div class="container">
         <header>
@@ -632,5 +646,115 @@
         </div>
     </footer>
 
+    <!-- 新增：纯原生粒子特效脚本 -->
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        
+        // --- 配置参数（可自由微调） ---
+        const particleCount = 80;    // 粒子数量
+        const connectDistance = 140; // 粒子自动连线的距离
+        const mouseDistance = 180;   // 鼠标连线与吸附的距离
+
+        const mouse = { x: null, y: null };
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 1.0; 
+                this.vy = (Math.random() - 0.5) * 1.0;
+                this.size = Math.random() * 2 + 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > width) this.vx = -this.vx;
+                if (this.y < 0 || this.y > height) this.vy = -this.vy;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                // 1. 粒子间连线
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < connectDistance) {
+                        ctx.beginPath();
+                        const opacity = 1 - (distance / connectDistance);
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.25})`; 
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+                
+                // 2. 鼠标连线与引力
+                if (mouse.x != null && mouse.y != null) {
+                    const dx = particles[i].x - mouse.x;
+                    const dy = particles[i].y - mouse.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < mouseDistance) {
+                        ctx.beginPath();
+                        const opacity = 1 - (distance / mouseDistance);
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${opacity * 0.5})`;
+                        ctx.lineWidth = 1.2;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                        
+                        // 产生一种淡淡的吸附效果
+                        particles[i].x -= dx * 0.015;
+                        particles[i].y -= dy * 0.015;
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+    </script>
 </body>
 </html>
